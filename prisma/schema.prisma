@@ -1,0 +1,35 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model People {
+  id              Int      @id @default(autoincrement())
+  originalId      Int      @unique
+  name            String
+  eyeColor       String?
+  gender          String?
+  hairColor       String?
+  homeWorldId     Int?
+  homeWorld       Planet? @relation(fields: [homeWorldId], references: [id])
+  species         Species[]
+}
+
+model Planet {
+  id             Int    @id @default(autoincrement())
+  originalId     Int    @unique
+  name           String
+  population     String
+  peoples        People[]
+}
+
+model Species {
+  id             Int    @id @default(autoincrement())
+  originalId     Int    @unique
+  name           String
+  peoples        People[]
+}
